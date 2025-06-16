@@ -84,7 +84,7 @@ python lab.py --start
 python lab.py --stop
 ```
 
-> [!TIP]
+> [!NOTE]
 > You can stop instances via AWS Management Console to save costs. The `--test` command will automatically start them when needed.
 
 ### Cleanup
@@ -104,14 +104,14 @@ python lab.py --force-cleanup
 The DNS servers are configured with the following zones and records:
 
 ### Forward Zone (sps)
-- **www.zkouska.sps** → 192.168.100.100 (A record)
-- **www.lab.sps** → 192.168.100.1 (A record)
-- **mail.lab.sps** → www.lab.sps (CNAME record)
-- **lab.sps** → 10 mail.lab.sps (MX record)
+- **`www.zkouska.sps`** → 192.168.100.100 (A record)
+- **`www.lab.sps`** → 192.168.100.1 (A record)
+- **`mail.lab.sps`** → `www.lab.sps` (CNAME record)
+- **`lab.sps`** → 10 mail.lab.sps (MX record)
 
 ### Reverse Zone (192.168.100.0/24)
-- **100.100.168.192.in-addr.arpa** → www.zkouska.sps (PTR record)
-- **1.100.168.192.in-addr.arpa** → www.lab.sps (PTR record)
+- **100.100.168.192.in-addr.arpa** → `www.zkouska.sps` (PTR record)
+- **1.100.168.192.in-addr.arpa** → `www.lab.sps` (PTR record)
 
 ### Zone Transfer
 - Primary DNS server provides zones to secondary via AXFR
@@ -137,32 +137,32 @@ The monitoring server includes an email system with:
 
 This lab meets all specified requirements:
 
-### 1. ✅ Primary and Secondary DNS Servers
+### 1. Primary and Secondary DNS Servers
 - BIND9 configured on both servers
 - Primary serves authoritative zones
 - Secondary receives zone transfers from primary
 - Both servers resolve DNS queries
 
-### 2. ✅ Zone Transfer Configuration
+### 2. Zone Transfer Configuration
 - Primary DNS configured to allow zone transfers
 - Secondary DNS configured to request zone updates
 - Automatic synchronization between servers
 - AXFR (full zone transfer) functionality
 
-### 3. ✅ Firewall Configuration
+### 3. Firewall Configuration
 - Security groups configured as firewalls
 - Primary DNS: Full access (SSH, DNS)
 - Secondary DNS: SSH restricted to Primary DNS security group
 - Monitoring server: SSH, SMTP, HTTP access
 - DNS ports (53) properly opened
 
-### 4. ✅ DNS Monitoring Service
+### 4. DNS Monitoring Service
 - Automated monitoring script runs every 2 minutes
 - Checks both primary and secondary DNS servers
 - Monitors DNS service availability
 - Generates appropriate alert levels
 
-### 5. ✅ Email Notifications
+### 5. Email Notifications
 - Postfix SMTP server for outgoing emails
 - Dovecot for IMAP/IMAPS access
 - Custom monitoring system sends email alerts
